@@ -1,0 +1,7 @@
+en:
+  vagrant_rsync_pick:
+    validation:
+      file_required: "File name is required"
+      guest_dir_required: "Config value rsync_pick.guest_dir is required"
+      host_dir_required: "Config value rsync_pick.host_dir is required"
+

@@ -1,38 +1,35 @@
-# VagrantRsyncPick
+# vagrant-rsync-pick
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/vagrant_rsync_pick`. To experiment with that code, run `bin/console` for an interactive prompt.
+The plugin allows you to pick atomic changes from the guest machine folder via rsync.
 
-TODO: Delete this and the text above, and describe your gem
+The `rsync` shared folder type is much faster (10x times maybe)
+than nfs/virtualbox/smb and others.
+
+But it has one huge disadvantage: it isn't possible to sync data
+in a bidirectional way at all. So when you generate a new migration
+or rake task for example your changes are kept on your guest machine only.
 
 ## Installation
 
-Add this line to your application's Gemfile:
+    $ vagrant plugin install vagrant-rsync-pick
+
+And then configure your guest directory (where the files are taken from)
+and your host directory (where the files are stored to):
 
 ```ruby
-gem 'vagrant_rsync_pick'
+  config.rsync_pick.guest_dir = "/var/www/my-app"
+  config.rsync_pick.host_dir = Dir.pwd
 ```
-
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
-
-    $ gem install vagrant_rsync_pick
 
 ## Usage
 
-TODO: Write usage instructions here
+Execute this command so the file(s) is(are) rsynced to you host folder:
 
-## Development
-
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
-
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+    $ vagrant rpick db/migrate/20100825634193_create_table.rb
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/vagrant_rsync_pick. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
+Bug reports and pull requests are welcome on GitHub at https://github.com/zinovyev/vagrant_rsync_pick. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
 
 ## License
 

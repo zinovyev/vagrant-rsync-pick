@@ -12,8 +12,14 @@ module VagrantPlugins
 
       def validate(machine)
         errors = _detected_errors
-        unless @guest_dir && @host_dir
-          errors << "Both values: guest_dir and host_dir are required"
+        unless @guest_dir
+          errors << "Config value rsync_pick.guest_dir is required"
+          # errors << I18n.t("vagrant_rsync_pick.validation.guest_dir_required")
+        end
+
+        unless @host_dir
+          errors << "Config value rsync_pick.host_dir is required"
+          # errors << I18n.t("vagrant_rsync_pick.validation.host_dir_required")
         end
 
         { SECTION_NAME => errors }

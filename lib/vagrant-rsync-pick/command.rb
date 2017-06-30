@@ -17,18 +17,35 @@ module VagrantPlugins
       end
 
       def execute
-        return unless file_path
+        raise_errors
         p command
         system command
       end
 
       private
 
+      def raise_errors
+        unless file_path
+          raise ::Vagrant::Errors::VagrantError.new,
+            "Argument file_name is required"
+        end
+
+        unless ssh_info
+          raise ::Vagrant::Errors::VagrantError.new,
+            "Run vagrant up first to start the box"
+        end
+
+        config_errors = config.validate(machine)
+        if config_errors && config_errors[Config::SECTION_NAME]
+          raise ::Vagrant::Errors::VagrantError.new,
+            config_errors[Config::SECTION_NAME].compact
+        end
+      end
+
       def command
         [
           "rsync",
-          "-R",
-          "-v",
+          "-rzav",
           "-e",
           "\"#{ssh_options}\"",
           guest_path,
@@ -48,7 +65,7 @@ module VagrantPlugins
       end
 
       def host_path
-        File.join(host_dir, "/")
+        File.join(host_dir, file_path)
       end
 
       def file_path

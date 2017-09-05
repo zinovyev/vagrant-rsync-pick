@@ -35,11 +35,11 @@ module VagrantPlugins
             "Run vagrant up first to start the box"
         end
 
-        config_errors = config.validate(machine)
-        if config_errors && config_errors[Config::SECTION_NAME]
-          raise ::Vagrant::Errors::VagrantError.new,
-            config_errors[Config::SECTION_NAME].compact
-        end
+        # config_errors = config.validate(machine)
+        # if config_errors && config_errors[Config::SECTION_NAME]
+        #  raise ::Vagrant::Errors::VagrantError.new,
+        #    config_errors[Config::SECTION_NAME].compact
+        # end
       end
 
       def command
